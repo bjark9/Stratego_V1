@@ -1,5 +1,7 @@
 # Rank of the pieces -> Dict = {piece : rank}
-rank = {
+import pygame
+
+piece_rank = {
     "Marshall": 1,
     "General": 2,
     "Colonel": 3,
@@ -9,9 +11,9 @@ rank = {
     "Sergeant": 7,
     "Miner": 8,
     "Scout": 9,
-    "Spion": 10,
+    "Spy": 10,
     "Bomb": 0,
-    "Flag": "F",
+    "Flag": 11,
 }
 
 # Number of pieces -> Dict = {piece : times}
@@ -25,13 +27,15 @@ pieces = {
     "Sergeant": 4,
     "Miner": 5,
     "Scout": 8,
-    "Spion": 1,
+    "Spy": 1,
     "Bomb": 6,
     "Flag": 1,
 }
 
 # Cases where there is water
-water = {}
+water_1 = pygame.Rect(160, 320, 160, 160)
+water_2 = pygame.Rect(480, 320, 160, 160)
+water = [water_1, water_2]
 
 
 # Place of the pieces -> Dict = {piece : [(pos1,pos2),(pos1,pos2)]} ------> list of tuples
