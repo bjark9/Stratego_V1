@@ -4,19 +4,19 @@ from game_state import place_blue, place_red, water, piece_rank
 
 
 # Update side
-action = False
-side = "blue"
+#action = False
+#side = "blue"
 
 
-def update_side():
-    global action, side
+def update_side(action,side):
+    #global action, side
     if action:
         if side == "blue":
             side = "red"
         else:
             side = "blue"
     action = False
-    return side
+    return side,action
 
 
 def get_piece_at_position(pos, side) -> str and int:
@@ -41,13 +41,13 @@ def get_piece_at_position(pos, side) -> str and int:
 
 # Update position after move
 # In this function we change the flag action to True so that update_side gets called
-def move_piece(piece_name, index, start_position, new_pos, adj_cases):
-    global action
+def move_piece(piece_name, index, start_position, new_pos, adj_cases,side):
+    #global action
     # We break the movement of the piece if can_move returns False
     if not can_move(piece_name):
-        return False
+        return False,False
     if not valid_move(side, start_position, new_pos, adj_cases, piece_name):
-        return False
+        return False,False
 
     x, y = new_pos
     if side == "blue":
@@ -56,8 +56,8 @@ def move_piece(piece_name, index, start_position, new_pos, adj_cases):
         place_red[piece_name][index] = (x, y)
 
     # print(f"{piece_name} à bougé")
-    action = True
-    return True
+    #action = True
+    return True,True # (moved_successfully, action_flag)
 
 
 # Can the piece move (Bombs and Flags can't move)
@@ -211,7 +211,7 @@ def is_occupied(pos):
 
 
 def winner_of_combat(pos1, pos2, side):
-    global action
+    #global action
     attacker_name, attacker_index = get_piece_at_position(pos1, side)
     # Change side after getting the attacker
     if side == "blue":
@@ -224,11 +224,11 @@ def winner_of_combat(pos1, pos2, side):
 
     if attacker_rank is None or defender_rank is None:
         print("Combat error: unknown piece rank.")
-        return
+        return False, False
 
     # Win the game
     if defender_name == "Flag":
-        return True
+        return True,True
 
     # Miner -> bomb interaction
     if attacker_name == "Miner" and defender_name == "Bomb":
@@ -293,7 +293,8 @@ def winner_of_combat(pos1, pos2, side):
         else:
             del place_red[attacker_name][attacker_index]
             del place_blue[defender_name][defender_index]
-    action = True
+    #action = True
+    return False, True
 
 
 # After a move, send the move to the game_history.txt file

@@ -162,10 +162,12 @@ pygame.display.flip()
 selected_piece = None
 mouse_pos1 = None
 mouse_pos2 = None
+action = True
+side = "red"
 
 running = True
 while running:
-    side = update_side()
+    side, action = update_side(action,side)
     draw_grid()
     draw_water_in_grid()
     draw_all_pawns()
@@ -199,7 +201,7 @@ while running:
                 if can_move(piece_name):
                     if valid_move(side, mouse_pos1, mouse_pos2, list_adj, piece_name):
                         if is_enemy(side, mouse_pos2):
-                            winner = winner_of_combat(mouse_pos1, mouse_pos2, side)
+                            winner,action = winner_of_combat(mouse_pos1, mouse_pos2, side)
                             if winner:
                                 print(f"{side} wins!!")
                                 win_text = my_font.render(f"{side} wins!", 1, RED)
@@ -209,12 +211,13 @@ while running:
                                 pygame.time.wait(3000)
                                 running = False
                         else:
-                            move_piece(
+                            moved, action = move_piece(
                                 selected_piece[0],
                                 selected_piece[1],
                                 mouse_pos1,
                                 mouse_pos2,
                                 list_adj,
+                                side
                             )
                 # Send to history
                 send_to_history(piece_name, mouse_pos1, mouse_pos2, side)
