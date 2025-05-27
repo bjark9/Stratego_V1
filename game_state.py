@@ -38,7 +38,7 @@ water_2 = pygame.Rect(480, 320, 160, 160)
 water = [water_1, water_2]
 
 
-# Place of the pieces -> Dict = {piece : [(pos1,pos2),(pos1,pos2)]} ------> list of tuples
+# Place of the pieces -> Dict = {piece : [(pos1,pos2),(pos1,pos2)]} -> list of tuples
 place_blue = {piece: [] for piece in pieces}
 
 place_red = {piece: [] for piece in pieces}
